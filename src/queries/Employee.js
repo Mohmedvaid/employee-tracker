@@ -20,6 +20,7 @@ module.exports = {
                 manager_id INT,
                 PRIMARY KEY (id)
                 FOREIGN KEY (role_id) REFERENCES role(id)
+                FOREIGN KEY (manager_id) REFERENCES role(id)
             );
             `)
             },
