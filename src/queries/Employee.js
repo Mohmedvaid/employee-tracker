@@ -11,8 +11,16 @@ module.exports = {
             console.table(res)
         })
     },
+    Update: function(connection, id, updateField, updateValue){
+        connection.query(`
+        UPDATE role
+        SET ${updateField}=${updateValue}
+        WHERE id='${id}';`)
+    },
     //Employee
     Employee: {
+
+        //create table
         createTable: function (connection) {
                 connection.query(`       
             CREATE TABLE employee (
@@ -42,8 +50,11 @@ module.exports = {
                 }
             })
         },
-        SelectByDep: function(connection, dep){
-            connection.query(`SELECT * FROM employee WHERE department`)
+        update: function(connection, id, role){
+            connection.query(`
+            UPDATE employee
+            SET role_id=${role}
+            WHERE id='${id}';`)
         }
     },
 //Department
@@ -67,7 +78,13 @@ Department: {
                     console.log(`New Department Added!`);
                 }
             })
-        }
+        },
+        // Update: function(connection, id, updateField, updateValue){
+        //     connection.query(`
+        //     UPDATE employee
+        //     SET ${updateField}=${updateValue}
+        //     WHERE id='${id}';`)
+        // }
     },
     //Role
     Role:{
