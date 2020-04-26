@@ -6,9 +6,10 @@ module.exports = {
         connection.query(`DROP TABLE ${table}`)
     },
     Select: function(connection, table){
-        connection.query(`SELECT * FROM ${table}`, function(err, res){
+       let temp =  connection.query(`SELECT * FROM ${table}`, function(err, res){
             console.log('\n');
-            console.table(res)
+            console.table(res);
+            console.log('\n');
         })
     },
     Update: function(connection, id, updateField, updateValue){
@@ -55,6 +56,11 @@ module.exports = {
             UPDATE employee
             SET role_id=${role}
             WHERE id='${id}';`)
+        },
+        Remove: function(connection, fname, lname){
+            connection.query(`
+                
+            `)
         }
     },
 //Department
