@@ -11,63 +11,68 @@ const connection = mysql.createConnection({
   database: 'employee_db'
 });
 
-// connection.connect(function (err) {
-//   if (err) throw err;
-//   console.log("connected as id " + connection.threadId);
-//   //create tables
-//   sqlQueries.Employee.createTable(connection)
-//   sqlQueries.Role.createTable(connection)
-//   sqlQueries.Department.createTable(connection)
+connection.connect(function (err) {
+  if (err) throw err;
+  console.log("connected as id " + connection.threadId);
+  //create tables
+  // sqlQueries.Employee.createTable(connection)
+  // sqlQueries.Role.createTable(connection)
+  // sqlQueries.Department.createTable(connection)
 
-//   sqlQueries.Employee.Add(connection, `Mohmed`, `Vaid`, `1`, `1`);
-//   sqlQueries.Role.Add(connection, `Manager`, `100`, `23`);
-//   sqlQueries.Department.Add(connection, `HR`)
+  // sqlQueries.Employee.Add(connection, `Mohmed`, `Vaid`, `1`, `1`);
+  // sqlQueries.Role.Add(connection, `Manager`, `100`, `23`);
+  // sqlQueries.Department.Add(connection, `HR`)
 
-// });
+});
 
 
-async function test() {
-  let inp = await inquirer.prompt([{
+async function basicPrompts() {
+  let user = await inquirer.prompt([{
     type: 'list',
-    message: 'select an option',
-    name: 'test',
-    choices: ['a', 'b', 'c']
+    message: 'What would you like to do?',
+    name: 'userInp',
+    choices: ['View All Employee', 'View All Employee By Department', 'View All Employee Manager', 'Add Employee', 'Remove Employee', 'Update Employee', 'Update Employee By Role', 'Update Employee By Manager']
   }])
 
-  getEmployee(inp)
+  await doThis(user)
 
 }
 
-async function getEmployee(inp) {
-  let empData;
-  if (inp.test == 'a') {
-    empData = await inquirer.prompt([{
-        type: 'text',
-        name: 'First',
-        message: 'Enter the First name: '
-      },
-      {
-        type: 'text',
-        name: 'Last',
-        message: 'Enter the last name: '
-      }
-    ])
-  } else if (inp.test == 'b') {
-    empData = await inquirer.prompt([{
-        type: 'text',
-        name: 'First',
-        message: 'Enter the Role: '
-      },
-      {
-        type: 'text',
-        name: 'Last',
-        message: 'Enter the Role2 '
-      }
-    ])
+async function doThis(user) {
+console.log(user.userInp);
+
+  switch(user.userInp){
+    case 'View All Employee':
+      sqlQueries.Select(connection, 'employee')
+      break;
+
+    case 'View All Employee By Department':
+      await selectEmpByDep();
+    break;
+
+    case 'View All Employee Manager':
+      //code
+    break;
+
+    case 'Add Employee':
+      //code
+      break;
   }
-
-  console.log(empData);
+  console.log(`\n`);
+  await basicPrompts();
 
 }
 
-test()
+async function selectEmpByDep(){
+  let dep = await inquirer.prompt([
+    {
+      type: 'text',
+      message: 'Enter department',
+      name: 'departmentName'
+
+    }
+  ])
+  console.log(dep);
+}
+
+basicPrompts()

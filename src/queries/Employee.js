@@ -6,7 +6,10 @@ module.exports = {
         connection.query(`DROP TABLE ${table}`)
     },
     Select: function(connection, table){
-        connection.query(`SELECT * FROM ${table}`)
+        connection.query(`SELECT * FROM ${table}`, function(err, res){
+            console.log('\n');
+            console.table(res)
+        })
     },
     //Employee
     Employee: {
@@ -39,6 +42,9 @@ module.exports = {
                 }
             })
         },
+        SelectByDep: function(connection, dep){
+            connection.query(`SELECT * FROM employee WHERE department`)
+        }
     },
 //Department
 Department: {
