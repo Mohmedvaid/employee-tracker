@@ -1,4 +1,10 @@
 const mysql = require("mysql");
+const inquirer = require('inquirer')
+const EmpTable = require('../Assets/EmpTable')
+var express = require("express");
+var app = express()
+
+//const connection = require('../config/connections')
 
 module.exports = {
 
@@ -6,10 +12,10 @@ module.exports = {
         connection.query(`DROP TABLE ${table}`)
     },
     Select: function(connection, table){
-       let temp =  connection.query(`SELECT * FROM ${table}`, function(err, res){
+        connection.query(`SELECT * FROM ${table}`, function(err, res){
             console.log('\n');
             console.table(res);
-            console.log('\n');
+
         })
     },
     Update: function(connection, id, updateField, updateValue){
@@ -57,10 +63,29 @@ module.exports = {
             SET role_id=${role}
             WHERE id='${id}';`)
         },
-        Remove: function(connection, fname, lname){
-            connection.query(`
-                
-            `)
+        Remove:  async function(connection, table){
+
+            let arr=[]
+            var row ;
+             connection.query(`SELECT * FROM ${table}`,  async function(err, res){
+                Object.keys(res).forEach(function(key) {
+                     row = res[key];
+                     arr.push(row.first_name+" "+ row.last_name)
+                  });
+                    console.log(`\n`);
+                    let details = await inquirer.prompt([
+                        {
+                            type: 'list',
+                            message: 'Select one',
+                            name: 'user',
+                            choices: arr
+                        }
+                    ])
+                    let empName = await details.user.split(" ")
+                    connection.query(`DELETE FROM employee WHERE first_name='${empName[0]}' AND last_name='${empName[1]}';`)
+
+            })
+            
         }
     },
 //Department

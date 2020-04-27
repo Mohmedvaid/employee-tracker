@@ -1,6 +1,6 @@
 const connection = require('../config/connections')
 const inquirer = require('inquirer')
-const sqlQueries = require('../src/queries/Employee')
+const sqlQueries = require('../queries/Employee')
 
 // ADD NEW EMPLOYEE
 //Get NEW employee data
@@ -67,5 +67,17 @@ async function getDepDetails(){
 function update(details){
     sqlQueries.Update(connection, details.id, details.updateField, details.updateValue)
   }
-  
-  
+  //Remove emp
+  module.exports = {rm: async function rm(arr){
+    let details='';
+    console.log(`\n`);
+     details = await inquirer.prompt([
+        {
+            type: 'list',
+            message: 'Select one',
+            name: 'user',
+            choices: arr
+        }
+    ])
+
+}}

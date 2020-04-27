@@ -10,7 +10,7 @@ const connection = mysql.createConnection({
   
   connection.connect(function (err) {
     if (err) throw err;
-    console.log("connected as id " + connection.threadId);
+   // console.log("connected as id " + connection.threadId);
     //create tables
     // sqlQueries.Employee.createTable(connection)
     // sqlQueries.Role.createTable(connection)

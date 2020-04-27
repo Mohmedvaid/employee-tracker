@@ -1,6 +1,6 @@
 const connection = require('../config/connections')
 const inquirer = require('inquirer')
-const sqlQueries = require('../src/queries/Employee')
+const sqlQueries = require('../queries/Employee')
 
 //get new role info
 async function getNewRole(){
