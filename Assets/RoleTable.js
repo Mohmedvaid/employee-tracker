@@ -49,3 +49,8 @@ async function getRole(){
 function updateRole(role){
     sqlQueries.Employee.update(connection, role.id, role.role)
   }
+
+  module.exports={
+    getNewRole: getNewRole(),
+    updateTable: getRole()
+  }

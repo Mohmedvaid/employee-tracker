@@ -17,3 +17,7 @@ async function getNewDep(){
   function setDep(details){
     sqlQueries.Department.Add(connection, details.dep)
   }
+
+  module.exports={
+    getNewDep: getNewDep()
+  }

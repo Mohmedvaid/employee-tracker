@@ -11,7 +11,7 @@ module.exports = {
     Drop: function(connection, table){
         connection.query(`DROP TABLE ${table}`)
     },
-    Select: function(connection, table){
+    Select: function(connection, tabl){
         connection.query(`SELECT * FROM ${table}`, function(err, res){
             console.log('\n');
             console.table(res);
@@ -85,7 +85,6 @@ module.exports = {
                     connection.query(`DELETE FROM employee WHERE first_name='${empName[0]}' AND last_name='${empName[1]}';`)
 
             })
-            
         }
     },
 //Department
