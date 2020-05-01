@@ -13,7 +13,7 @@ basicPrompts();
     type: 'list',
     message: 'What would you like to do?',
     name: 'userInp',
-    choices: ['View All Employee', 'View All Department', 'View All Role', 'Add Employee', 'Add Department', 'Add Role', 'Add Department', 'Update Employee Role', 'Remove Employee', 'Update Employee', 'Update Role']
+    choices: ['View All Employee', 'View All Department', 'View All Role', 'Add Employee', 'Add Department', 'Add Role', 'Add Role', 'Update Employee Role', 'I am done, Terminate!']
   })
    await doThis(user)
   await basicPrompts();
@@ -35,31 +35,23 @@ async function doThis(user) {
       break;
 
     case 'Add Employee':
-       await getEmpDetails()
+       await getEmpDetails();
       break;
 
     case 'Add Department':
-      // DepTable.getNewDep;
+      await getNewDep();
       break;
 
     case 'Add Role':
-      // RoleTable.getNewRole;
+      await getNewRole();
       break;
 
-    case 'Remove Employee':
-     //  sqlQueries.Employee.Remove(connection, 'employee');
+      case 'Update Employee Role':
+        await UpdateEmployeeRole();
       break;
 
-    case 'Update Employee Role':
-       //RoleTable.getNewRole;
-      break;
-
-    case 'Update Employee':
-      // RoleTable.updateTable;
-      break;
-
-    case 'Update Role':
-      // DepTable.updateTable;
+      case 'I am done, Terminate!':
+         process.exit();
       break;
 
     default: console.log(`Invalid!`);
@@ -109,6 +101,17 @@ function update(details) {
 
 //Add NEW Employee
 async function getEmpDetails() {
+  let arr = [];
+
+  async function getRole(){
+    let depId = await connection.query(`SELECT * FROM department`)
+    depId.forEach(e => {
+        arr.push(e.id+" "+e.name);
+    });
+  }
+  await getRole()
+
+
   let details = await inquirer.prompt([{
       type: 'text',
       message: 'Employee First Name: ',
@@ -121,7 +124,7 @@ async function getEmpDetails() {
     },
     {
       type: 'text',
-      message: 'Employee Role Id: ',
+      message: `Employee Role Id (${arr.toString()}): `,
       name: 'Role',
     },
     {
@@ -138,6 +141,79 @@ async function setEmp(details) {
     details.Manager = null;
   }
   sqlQueries.Employee.Add(connection, details.Fname, details.Lname, details.Role, details.Manager)
+}
+
+//Add new Department
+async function getNewDep(){
+  let details = await inquirer.prompt([
+    {
+      type: 'text',
+      message: `Enter New Department: (Should not match) `,
+      name: 'dep',
+    }
+  ])
+   setDep(details)
+}
+
+function setDep(details){
+  sqlQueries.Department.Add(connection, details.dep)
+}
+
+
+//Add new role
+async function getNewRole(){
+  let details = await inquirer.prompt([
+    {
+      type: 'text',
+      message: 'Enter title: ',
+      name: 'title'
+    },
+    {
+      type: 'text',
+      message: 'Enter salary: ',
+      name: 'salary'
+    },
+    {
+      type: 'text',
+      message: 'Enter the new department id: ',
+      name: 'depId'
+    },
+  ])
+  addNewRole(details)
+}
+function addNewRole(details){
+  sqlQueries.Role.Add(connection, details.title, details.salary, details.depId)
+}
+
+
+async function UpdateEmployeeRole(){
+
+  let arr = [];
+
+  async function getRole(){
+    let depId = await connection.query(`SELECT * FROM department`)
+    depId.forEach(e => {
+        arr.push(e.id+" "+e.name);
+    });
+  }
+  await getRole()
+
+  let id = await inquirer.prompt([
+    {
+      type: 'text',
+      name: 'empId',
+      message: `Enter the employee id: `
+    },
+    {
+      type: 'text',
+      name: 'roleId',
+      message: `Enter the new role id (${arr.toString()}): `
+    }
+
+  ])
+
+  let uptRole = await connection.query(`UPDATE employee SET role_id=${id.roleId} WHERE id=${id.empId}`)
+  console.log(`Role Updated!`);
 }
 
 // async function Remove(){
@@ -167,6 +243,3 @@ async function setEmp(details) {
 
 // // }
 // // Remove()
-
-
-
