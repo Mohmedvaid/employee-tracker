@@ -2,9 +2,6 @@ const connection = require('./config/connections')
 const inquirer = require('inquirer')
 const sqlQueries = require('./queries/Employee')
 
-//const EmpTable = require('./Assets/EmpTable')
-//const RoleTable = require('./Assets/RoleTable')
-//const DepTable = require('./Assets/DepTable')
 
 basicPrompts();
 
@@ -19,26 +16,26 @@ basicPrompts();
     choices: ['View All Employee', 'View All Department', 'View All Role', 'Add Employee', 'Add Department', 'Add Role', 'Add Department', 'Update Employee Role', 'Remove Employee', 'Update Employee', 'Update Role']
   })
    await doThis(user)
- // await basicPrompts();
+  await basicPrompts();
 
 }
 
 async function doThis(user) {
   switch (user.userInp) {
     case 'View All Employee':
-      sqlQueries.Select(connection, 'employee')
+      await sqlQueries.Select('employee');
       break;
 
     case 'View All Department':
-      //sqlQueries.Select(connection, 'department')
+      await sqlQueries.Select('department');
       break;
 
     case 'View All Role':
-      //sqlQueries.Select(connection, 'role')
+      await sqlQueries.Select('department');
       break;
 
     case 'Add Employee':
-      //EmpTable.AddNewEmp;
+       await getEmpDetails()
       break;
 
     case 'Add Department':
@@ -71,6 +68,77 @@ async function doThis(user) {
   //basicPrompts();
 }
 
+
+
+//UPDATE CURRENT EMPLOYEE
+//Get and update Employee
+//Get NEW employee data
+async function getEmployee(){
+  let res = await connection.query(`SELECT * FROM ${table}`)
+  console.table(res);
+}
+
+
+
+
+async function getDepDetails() {
+  let details = await inquirer.prompt([{
+      type: 'text',
+      message: 'Enter the role id: ',
+      name: 'id',
+    },
+    {
+      type: 'text',
+      message: 'Which column would you like to update? (title, salary, department_id): ',
+      name: 'updateField',
+    },
+    {
+      type: 'text',
+      message: 'Enter the new value: ',
+      name: 'updateValue',
+    }
+  ])
+  update(details)
+}
+
+
+function update(details) {
+  sqlQueries.Update(connection, details.id, details.updateField, details.updateValue)
+}
+
+
+//Add NEW Employee
+async function getEmpDetails() {
+  let details = await inquirer.prompt([{
+      type: 'text',
+      message: 'Employee First Name: ',
+      name: 'Fname',
+    },
+    {
+      type: 'text',
+      message: 'Employee Last Name: ',
+      name: 'Lname',
+    },
+    {
+      type: 'text',
+      message: 'Employee Role Id: ',
+      name: 'Role',
+    },
+    {
+      type: 'text',
+      message: 'Employee\'s Manager Id (optional): ',
+      name: 'Manager',
+    }
+  ])
+  console.log(details);
+  await setEmp(details)
+}
+async function setEmp(details) {
+  if (details.Manager == '') {
+    details.Manager = null;
+  }
+  sqlQueries.Employee.Add(connection, details.Fname, details.Lname, details.Role, details.Manager)
+}
 
 // async function Remove(){
 

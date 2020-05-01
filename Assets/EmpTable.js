@@ -38,32 +38,4 @@ async function setEmp(details) {
   sqlQueries.Employee.Add(connection, details.Fname, details.Lname, details.Role, details.Manager)
 }
 
-//UPDATE CURRENT EMPLOYEE
-//Get and update Employee
-//Get NEW employee data
-async function getDepDetails() {
-  let details = await inquirer.prompt([{
-      type: 'text',
-      message: 'Enter the role id: ',
-      name: 'id',
-    },
-    {
-      type: 'text',
-      message: 'Which column would you like to update? (title, salary, department_id): ',
-      name: 'updateField',
-    },
-    {
-      type: 'text',
-      message: 'Enter the new value: ',
-      name: 'updateValue',
-    }
-  ])
-  update(details)
-}
 
-
-function update(details) {
-  sqlQueries.Update(connection, details.id, details.updateField, details.updateValue)
-}
-//Remove emp
-//module.exports = getEmpDetails()

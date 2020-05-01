@@ -1,8 +1,7 @@
 const mysql = require("mysql");
 const inquirer = require('inquirer')
-const EmpTable = require('../Assets/EmpTable')
-var express = require("express");
-var app = express()
+const express = require("express");
+const connection = require('../config/connections')
 
 //const connection = require('../config/connections')
 
@@ -11,12 +10,9 @@ module.exports = {
     Drop: function(connection, table){
         connection.query(`DROP TABLE ${table}`)
     },
-    Select: function(connection, tabl){
-        connection.query(`SELECT * FROM ${table}`, function(err, res){
-            console.log('\n');
-            console.table(res);
-
-        })
+    Select: async function(table){
+        let res = await connection.query(`SELECT * FROM ${table}`)
+        console.table(res);
     },
     Update: function(connection, id, updateField, updateValue){
         connection.query(`
