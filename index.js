@@ -7,7 +7,6 @@ basicPrompts();
 
 //What would you like to do prompts
  async function basicPrompts() {
-  console.log(`Basic executed!`);
 
   let user =  await inquirer.prompt({
     type: 'list',
@@ -26,14 +25,17 @@ async function doThis(user) {
   switch (user.userInp) {
     case 'View All Employee':
       await sqlQueries.Select('employee');
+      console.log(`\n`);
       break;
 
     case 'View All Department':
       await sqlQueries.Select('department');
+      console.log(`\n`);
       break;
 
     case 'View All Role':
-      await sqlQueries.Select('department');
+      await sqlQueries.Select('role');
+      console.log(`\n`);
       break;
 
     case 'Add Employee':
@@ -94,7 +96,6 @@ async function getEmpDetails() {
       name: 'Manager',
     }
   ])
-  console.log(details);
   await setEmp(details)
 }
 async function setEmp(details) {
@@ -115,6 +116,7 @@ async function getNewDep(){
     }
   ])
    setDep(details)
+   await console.log(`New Department Added!\n`);
 }
 function setDep(details){
   sqlQueries.Department.Add(connection, details.dep)
@@ -141,6 +143,7 @@ async function getNewRole(){
     },
   ])
   addNewRole(details)
+  await console.log(`New Role Added!\n`);
 }
 function addNewRole(details){
   sqlQueries.Role.Add(connection, details.title, details.salary, details.depId)
@@ -173,7 +176,7 @@ async function UpdateEmployeeRole(){
   ])
 
   let uptRole = await connection.query(`UPDATE employee SET role_id=${id.roleId} WHERE id=${id.empId}`)
-  console.log(`Role Updated!`);
+  console.log(`Role Updated!\n`);
 }
 
 
