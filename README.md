@@ -4,7 +4,6 @@
 
 
   ## Description
-  A CLI content management system that allows users to view and manipulate employee information stored in a database allowing for better organization and easier planning. 
 
   Employee-tracker is a CLI content management system that allows the user to manage employees. The app allows the user to add/remove employees, departments and roles. Roles, Managers and employees can be views edited accordingly.
   
