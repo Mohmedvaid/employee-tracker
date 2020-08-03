@@ -1,11 +1,27 @@
-# Employee Tracker Overview
+# Employee Tracker
+ 
+  ![employee tracker demonstration](Assets/employee-tracker.gif)
 
-Employee Tracker App lets you track your employees efficiently. Its a simple CMs designed to Add, Edit and Remove the Employees. It containes 3 Tables: Employee, Department and Role. The tables are joined together using Primary and Foreign Keys to make the tracking process.
 
-## Installation
+  ## Description
+  A CLI content management system that allows users to view and manipulate employee information stored in a database allowing for better organization and easier planning. 
 
-Use npm package to install the dependencies to run the app.
+  Employee-tracker is a CLI content management system that allows the user to manage employees. The app allows the user to add/remove employees, departments and roles. Roles, Managers and employees can be views edited accordingly.
+  
+  
+  ## Installation
+  Download the app and run the db/schema.sql file in your preferred mysql GUI to initialize your local database.
+  
+  
+  ## Usage
+  Navigate to the project folder in your preferred terminal and run: 
+  ```sh 
+  npm start
+  ```
 
-## Click the link below to preview the app 
+  
 
-[Employee Tracker App Video](http://somup.com/cYhjcgjiKZ)
+  ## Technologies
+  
+* mySQL
+* Inquirer
